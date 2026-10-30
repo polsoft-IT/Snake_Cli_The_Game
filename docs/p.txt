@@ -1,0 +1,1 @@
+Snake CLI is a small terminal Snake game. Steer with the arrow keys or WASD, eat food to grow, avoid walls and your own tail, and advance through faster levels. A start menu, an instructions screen and a saved high score keep it quick and easy to play.
