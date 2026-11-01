@@ -1,161 +1,203 @@
-<div align="center">
+<p align="center">
+  <img src="docs/screenshot.png" alt="Snake CLI running in a terminal window" width="840">
+</p>
 
-# 🐍 Snake CLI
+<h1 align="center">Snake Cli v 1.5py</h1>
 
-**Classic Snake for your terminal — playable on Windows, macOS and Linux.**
+<p align="center">
+  A classic Snake game for the terminal — pure Python, zero dependencies, five levels and a persistent high score.
+</p>
 
-[![Python](https://img.shields.io/badge/python-3.9%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-0078D4)
-![UI](https://img.shields.io/badge/UI-curses-5B2C6F)
-![License](https://img.shields.io/badge/license-MIT-green)
+<p align="center">
+  <a href="README.md"><b>English</b></a> •
+  <a href="docs/README.pl.md">Polski</a>
+</p>
 
-**English** · [Polski](docs/readme.pl.md)
-
-</div>
-
-<div align="center">
-
-![Snake CLI running in Windows Terminal](docs/screenshot.png)
-
-</div>
+<p align="center">
+  <img alt="Python" src="https://img.shields.io/badge/Python-3.8%2B-3776AB?style=flat-square&logo=python&logoColor=white">
+  <img alt="Platform" src="https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-5C2D91?style=flat-square&logo=windows-terminal&logoColor=white">
+  <img alt="Dependencies" src="https://img.shields.io/badge/Dependencies-none-0078D4?style=flat-square">
+  <img alt="License" src="https://img.shields.io/badge/License-MIT-107C10?style=flat-square">
+</p>
 
 ---
 
-Snake CLI is a small, dependency-free terminal game. Move a snake around a bordered
-board, eat the food, grow longer, and don't hit the walls, the level obstacles or your
-own tail. The score, level and high score are shown in the window title bar area, and
-the best result is saved between sessions.
+## Overview
+
+**Snake Cli v 1.5py** is a lightweight, terminal-native take on the arcade classic. You steer a snake around a bordered arena,
+eat berries to grow, dodge obstacles and your own tail, and chase a high score that is saved between sessions.
+
+The game is written in plain Python on top of the standard `curses` library, so the whole project is a handful of
+small, readable modules — easy to read, easy to modify, and no `pip install` required on a Python build that ships `_curses`.
 
 ## Features
 
-- 🎮 **Keyboard controls** — arrow keys or WASD.
-- 🚫 **Reverse-turn protection** — you cannot instantly turn 180° into yourself.
-- 🏆 **Persistent high score** — saved to a plain text file next to the script.
-- 📈 **Levels with speed ramp-up** — a new level starts at the target score and the game gets faster.
-- 🧱 **Level obstacles** — walls are drawn from the level definition.
-- 🖥️ **Start menu** — Start Game, Instructions, Quit.
-- 🔁 **Restart / quit screen** — press `r` to start again or `q` to exit.
-- 🎨 **Portable rendering** — ncurses block glyphs on Unix, ASCII fallback on Windows.
+| | Feature | Description |
+|---|---|---|
+| 🎮 | **Classic gameplay** | Arrow keys or WASD, no 180° turns, collision with walls, obstacles and the body ends the run. |
+| 🧱 | **Five handcrafted levels** | Plain, Midwall, Pillars, Fortress and Maze — each with its own obstacle layout and speed. |
+| ⏩ | **Progressive difficulty** | Every level is faster than the last; beyond level 5 the layout repeats and the speed keeps climbing. |
+| 🏆 | **Persistent high score** | The best score is stored in `snake_game/highscore.txt` and shown in the menu and on the game-over screen. |
+| ◉ | **Round, colourful graphics** | Snake, berry and walls are drawn with circular glyphs and colour-coded bands. |
+| 🔤 | **Graceful fallback** | Terminals without colour or Unicode automatically get a readable ASCII rendering. |
+| 🧩 | **Small, modular codebase** | Levels, scoring and configuration live in their own packages under `snake_game/`. |
 
 ## Requirements
 
-| Requirement | Details |
-|---|---|
-| Python | 3.9 or newer (on this machine: 3.12 or 3.14) |
-| `curses` | Standard on macOS / Linux |
-| `windows-curses` | Required on Windows (`pip install windows-curses`) |
+- **Python 3.8 or newer.**
+- The standard `curses` module.
+  - **Linux / macOS** — included with CPython out of the box.
+  - **Windows** — some official installers ship without the `_curses` C extension (seen on Python 3.13 and 3.15).
+    Use a Python that includes it (e.g. `py -3.14`) or install the wheel:
+    ```powershell
+    pip install windows-curses
+    ```
+- A terminal at least **20 × 50** characters (larger is better — the arena scales with the window).
 
-> **Windows note:** Python for Windows does not ship `_curses`. Install it with
-> `pip install windows-curses`. PyPI currently publishes wheels up to **CPython 3.14** —
-> Python **3.15** cannot run the game until a matching wheel exists. Use Python 3.14
-> (or 3.12) on this machine.
-
-## Installation
+## Quick start
 
 ```powershell
-# 1. Get the files
-git clone <repository-url>
+# Clone the repository
+git clone https://github.com/polsoft-its/Snake_Cli_The_Game.git
 cd Snake_Cli_The_Game
 
-# 2. Install the curses backend (Windows only)
-python -m pip install windows-curses
+# Run the game (pick a Python that has curses on Windows)
+py -3.14 Snake.py
+# or
+python Snake.py
 ```
 
-macOS/Linux users can skip step 2 — the standard library already contains `curses`.
+On Linux or macOS simply run:
 
-## Run
-
-**Windows (recommended)** — the helper script picks an interpreter that has `curses`
-and fails with a readable message if none is found:
-
-```powershell
-.\run_snake.ps1
+```bash
+python3 Snake.py
 ```
 
-You can point it at a specific interpreter:
-
-```powershell
-.\run_snake.ps1 -PythonExe "C:\Python314\python.exe"
-```
-
-**Any platform**
-
-```powershell
-python "Snake CLI.py"
-```
-
-> If the terminal asks you to select an app for `.py` files, run it explicitly:
-> `& "C:\Users\<you>\AppData\Local\Programs\Python\Python314\python.exe" "Snake CLI.py"`
+> [!TIP]
+> On Windows, use **Windows Terminal** for the best-looking result. If you see `?` instead of `◉ ◎ ◍`, your console
+> is not UTF-8 — run `chcp 65001` before starting the game (or keep the ASCII fallback, which is fully playable).
 
 ## Controls
 
 | Key | Action |
 |---|---|
-| `↑` `↓` `←` `→` | Move the snake |
-| `W` `A` `S` `D` | Move the snake |
-| `Enter` / `S` | Start the game from the main menu |
-| `I` | Show instructions |
-| `Q` / `Esc` | Quit |
-| `R` | Restart after Game Over |
-| `Q` | Quit after Game Over |
+| <kbd>↑</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> | Move the snake |
+| <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> | Move the snake (alternative) |
+| <kbd>Enter</kbd> / <kbd>S</kbd> | Start the game from the main menu |
+| <kbd>I</kbd> | Show instructions |
+| <kbd>Q</kbd> / <kbd>Esc</kbd> | Quit |
+| <kbd>R</kbd> | Restart after a game over |
+| <kbd>Q</kbd> | Quit from the game-over screen |
 
 ## Gameplay
 
-1. Press `Enter` in the main menu to start.
-2. Each `*` you eat adds **1 point** and one segment to the snake.
-3. Reaching the level's target score advances you to the next level — the snake moves faster.
-4. Game over when the head touches the border, a level wall, or the snake's own body.
-5. A new record is written to the high-score file immediately.
+- The snake starts in the left half of the arena and moves to the right.
+- Eating a berry adds **+1 point** and grows the snake by one segment.
+- Reaching the target score advances you to the next level; the arena keeps its size and the snake keeps its length.
+- The run ends when the head hits the outer border, an obstacle, or the snake's own body.
+
+### Levels
+
+| Level | Name | Speed | Target score | Obstacles |
+|:---:|---|---:|---:|---|
+| 1 | Plain | 150 ms/tick | 10 | none |
+| 2 | Midwall | 130 ms/tick | 20 | none |
+| 3 | Pillars | 110 ms/tick | 30 | horizontal wall |
+| 4 | Fortress | 95 ms/tick | 40 | hollow square |
+| 5 | Maze | 80 ms/tick | 50 | scattered pillars |
+| 6+ | Last layout, faster | −5 ms per level (min 40 ms) | +10 per level | same as level 5 |
 
 ## Project structure
 
 ```text
 Snake_Cli_The_Game/
-├── Snake CLI.py            # Game source: menu, game loop, rendering
-├── run_snake.ps1           # Windows launcher (validates curses, then starts the game)
-├── high_score.txt          # Saved high score (created on first record)
-├── README.md               # This file (English)
-├── tests/
-│   ├── run_tests.ps1       # Test runner (runs every test in this folder)
-│   ├── smoke_test_curses.py# Headless smoke test (menu + one game frame)
-│   └── smoke_out.txt       # Output of the last smoke test run
-└── docs/
-    ├── readme.pl.md        # Polish version of this document
-    ├── p.txt               # One-paragraph program summary
-    └── screenshot.png      # Screenshot used above
+├── Snake.py                     # Entry point: curses UI, game loop, drawing
+├── snake_game/
+│   ├── config.py                # Project paths and the high-score file location
+│   ├── highscore.txt            # Created/updated automatically after a run
+│   ├── levels/
+│   │   └── catalog.py           # Level definitions (speed, target score, walls)
+│   └── storage/
+│       └── scores.py            # Loading and saving the high score
+├── docs/
+│   ├── screenshot.png           # Screenshot used in this README
+│   ├── README.pl.md             # Polish version of this document
+│   └── ReadMeP.txt              # 350-character quick description
+└── README.md                    # This file
 ```
 
-## Testing
+### How it fits together
 
-All tests live in `tests/` and are run from there.
+- **`Snake.py`** owns the `curses` window, the main menu, the game loop and all drawing helpers
+  (`draw_snake`, `draw_food`, `draw_wall`, `initialize_colors`).
+- **`snake_game/levels/catalog.py`** is pure data plus `get_level(number)`, which loops the level list endlessly
+  and makes later levels faster.
+- **`snake_game/storage/scores.py`** reads and writes the single integer stored in `snake_game/highscore.txt`;
+  failures are handled silently so the game never crashes over a filesystem problem.
+- **`snake_game/config.py`** builds absolute paths from the package location, so the high-score file is always found
+  inside `snake_game/` regardless of the working directory.
 
-```powershell
-# From the repository root
-.\tests\run_tests.ps1
+## Configuration
 
-# Or explicitly with an interpreter that has curses
-& "C:\Users\<you>\AppData\Local\Programs\Python\Python314\python.exe" .\tests\smoke_test_curses.py
-```
+Most tuning is a one-line change:
 
-`run_tests.ps1` prints the collected output. The smoke test writes its result to
-`tests\smoke_out.txt`: `smoke test OK: <path to python>` on success.
+| What | Where |
+|---|---|
+| Level speed, target score, obstacles | `snake_game/levels/catalog.py` — the `Level(...)` entries |
+| High-score file location | `snake_game/config.py` — `HIGH_SCORE_FILE` |
+| Colours of snake, food and walls | `Snake.py` — `initialize_colors()` |
+| Glyphs used for snake, food and walls | `Snake.py` — `HEAD_*`, `BODY_GLYPHS`, `TAIL_GLYPHS`, `FOOD_GLYPHS`, `WALL_GLYPHS` |
 
 ## Troubleshooting
 
-| Symptom | Cause / Fix |
-|---|---|
-| `ModuleNotFoundError: No module named '_curses'` | `curses` is missing. On Windows: `pip install windows-curses`, then use that interpreter. |
-| `No matching distribution found for windows-curses` | Your Python version has no wheel yet (e.g. 3.15). Use Python 3.12–3.14. |
-| `AttributeError: module 'curses' has no attribute 'ACS_...'` | The game already falls back to ASCII glyphs; older builds needed `ACS_CKBOARD` / `ACS_PI`. |
-| Snake is invisible or the board looks empty | Terminal too small or font issue — resize the window, then restart. |
-| High score resets to 0 | The folder is read-only or `high_score.txt` is corrupted; the game falls back to 0. |
-| `Redirection is not supported` (PowerShell) | Piping curses output is not possible — run the game directly in the console. |
+<details>
+<summary><b>"The 'curses' module is not available in this Python installation"</b></summary>
+
+Your Python build is missing the `_curses` C extension. Run the game with a Python that ships it
+(for example `py -3.14 Snake.py`) or install `windows-curses`:
+
+```powershell
+pip install windows-curses
+```
+</details>
+
+<details>
+<summary><b>I only see <code>?</code> or ASCII letters instead of round glyphs</b></summary>
+
+The console is not using a UTF-8 code page or has no colour support, so the game intentionally switches to its
+ASCII fallback. Run `chcp 65001` (Windows) or use a UTF-8 terminal such as Windows Terminal.
+</details>
+
+<details>
+<summary><b>The board looks cramped or does not fit</b></summary>
+
+The arena fills the current terminal window. Enlarge the window before starting, or use a font with a smaller
+line height. A minimum of 20 × 50 characters is required.
+</details>
+
+<details>
+<summary><b>The high score did not change</b></summary>
+
+The score is only written when it beats the stored value, and into `snake_game/highscore.txt`.
+If that folder is read-only, saving fails silently by design.
+</details>
+
+## Contributing
+
+1. Fork the repository and create a feature branch (`git checkout -b feature/my-idea`).
+2. Keep changes small and focused; follow the existing module layout.
+3. Test by running the game on a terminal both with and without colour/UTF-8 support.
+4. Open a pull request describing what you changed and why.
+
+Ideas that fit the project well: new level layouts, more collectible types, a pause key, or an
+on-screen legend for the glyphs.
 
 ## License
 
-Released under the MIT License.
+Released under the **MIT License** — see the repository for details.
 
-## Credits
+---
 
-- Game: **Sebastian Januchowski — polsoft.ITS™**
-- Curses bindings for Windows: [windows-curses](https://github.com/zephyrproject-rtos/windows-curses)
+<p align="center">
+  <sub><b>Snake Cli v 1.5py</b> — built with Python and curses · <a href="docs/README.pl.md">Polski</a> · <a href="#snake-cli">Back to top</a></sub>
+</p>
